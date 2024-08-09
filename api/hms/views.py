@@ -33,25 +33,48 @@ class UserRegistration(APIView):
         return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
 
 
+# class UserLogin(APIView):
+#     def post(self, request):
+#         username = request.data.get('username')
+#         password = request.data.get('password')
+
+#         if not username or not password:
+#             return Response({'error': 'Both username and password are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+#         user = authenticate(username=username, password=password)
+
+#         if not user:
+#             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+#         refresh = RefreshToken.for_user(user)
+
+#         return Response({
+#             'refresh': str(refresh),
+#             'access': str(refresh.access_token),
+#         }, status=status.HTTP_200_OK)
 class UserLogin(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-
+ 
         if not username or not password:
             return Response({'error': 'Both username and password are required'}, status=status.HTTP_400_BAD_REQUEST)
-
+ 
         user = authenticate(username=username, password=password)
-
+ 
         if not user:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
+ 
         refresh = RefreshToken.for_user(user)
-
+        role = user.profile.role  # Assuming you have a one-to-one relationship with Profile
+ 
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'role': role,
         }, status=status.HTTP_200_OK)
+
+
 
 
 class HotelListAPIView(generics.ListCreateAPIView):
@@ -205,3 +228,14 @@ class RoomDetailView(APIView):
             return Response(serializer.data)
         except Room.DoesNotExist:
             return Response({'error': 'Room not found'}, status=404)
+
+class CitySearchAPIView(generics.ListAPIView):     
+    serializer_class = HotelSerializer   
+
+    def get_queryset(self):         
+        prefix = self.request.query_params.get('prefix','')        
+    
+        if not prefix:            
+            return Hotel.objects.none()
+    # Return an empty queryset if no prefix is provided
+        return Hotel.objects.filter(city__istartswith=prefix)

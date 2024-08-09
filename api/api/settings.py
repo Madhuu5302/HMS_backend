@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_api',
+        'NAME': 'cozyhaven_2000129995',
         'USER': 'root',
-        'PASSWORD': 'Madhu@5302',
+        'PASSWORD': 'Password123',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -140,6 +140,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),  # Example: 15 minutes
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),    # Example: 30 days
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),  
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),   
 }

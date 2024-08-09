@@ -4,6 +4,7 @@ from .views import *;
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.urls import path
 from . import views
+from .views import CitySearchAPIView
 
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('bookings/', views.booking_list, name='booking-list'),
     path('bookings/<int:booking_id>/', views.booking_detail, name='booking-detail'),
     path('users/<int:user_id>/', views.user_detail, name='user_detail'),
+    path('search/cities/', CitySearchAPIView.as_view(), name='city-search'),
 ]

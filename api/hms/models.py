@@ -50,3 +50,10 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking for {self.user.username} - Room: {self.room.room_type}"
+
+class Profile(models.Model):     
+    ROLE_CHOICES = ( ('user','User'),('hotel_owner','Hotel Owner'),('admin','Admin'),)     
+    user = models.OneToOneField(User, on_delete=models.CASCADE)    
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
+    def __str__(self):
+        return   self.user.username
